@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dune</title>
+  <link rel="icon" href="logo1.jpg" type="image/icon type">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%);
+    }
+
+    .chat-container {
+      position: relative;
+      top: 60px;
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border: 1px solid rgb(63, 76, 119);
+      border-radius: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .chat-header {
+      padding: 10px;
+      background-color: #121212;
+      border-bottom: 1px solid #dddddd;
+    }
+
+    .chat-header h1 {
+      margin: 0;
+      font-size: 16px;
+      color: #ffffff;
+      text-align: center;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    .chat-body {
+      padding: 10px;
+      height: 400px;
+      overflow-y: scroll;
+    }
+
+    .chat-message {
+      margin-bottom: 10px;
+    }
+
+    .chat-message .user-message {
+      background-color: #e2f0fd;
+      color: #333333;
+      border-radius: 15px 15px 15px 5px;
+      padding: 8px 12px;
+      max-width: 80%;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    .chat-message .bot-message {
+      background-color: #d6e9c6;
+      color: #333333;
+      border-radius: 15px 15px 5px 15px;
+      padding: 8px 12px;
+      max-width: 80%;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    .input-container {
+      padding: 10px;
+      border-top: 1px solid #dddddd;
+      background-color: #121212; 
+      }
+
+    .input-container input {
+      width: 95%;
+      padding: 8px;
+      border: 1px solid #dddddd;
+      border-radius: 20px;
+    }
+    .button {
+      margin: auto;
+      display: flex;
+      text-align: center;
+      outline: 0;
+      cursor: pointer;
+      padding: 5px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      vertical-align: middle;
+      border: 1px solid;
+      border-radius: 6px;
+      color: #0366d6;
+      background-color: #fafbfc;
+      border-color: #1b1f2326;
+      box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset;
+      transition: 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+      transition-property: color, background-color, border-color;
+      :hover {
+          color: #ffffff;
+          background-color: #0366d6;
+          border-color: #1b1f2326;
+          box-shadow: rgba(27, 31, 35, 0.1) 0px 1px 0px 0px, rgba(255, 255, 255, 0.03) 0px 1px 0px 0px inset;
+          transition-duration: 0.1s;
+      }
+  
+    }
+  </style>
+</head>
+<body>
+  <button class="button">BETA TESTING</button>
+  <div class="chat-container">
+    <div class="chat-header">
+      <h1>Dune</h1>
+    </div>
+    <div class="chat-body" id="chatBox"></div>
+    <div class="input-container">
+      <input type="text" id="userInput" placeholder="Type your message...">
+    </div>
+  </div>
+  
+  <script>
+const inputBox = document.getElementById('userInput');
+const chatBox = document.getElementById('chatBox');
+
+const dataset = [
+  { input: 'hello', output: 'Hi there! I am Dune, how can I help you ?' },
+  { input: 'how are you', output: "I'm doing well, thank you!" },
+  { input: 'what is your name', output: "I'm DuneAi, nice to meet you" },
+  { input: 'nice to meet you', output: 'Nice to meet you too!' },
+  { input: 'goodbye', output: 'Goodbye! Have a nice day.' },
+  { input: 'hi, how are you doing?', output: "i'm fine. how about yourself?"},
+  { input: "i'm fine. how about yourself?", output: "i'm pretty good. thanks for asking"},
+  { input: 'hi', output: 'Hi there!' },
+  { input: 'whats up', output: 'Im good not much going on, you ?' },
+  { input: "Im Good", output: "Great"},
+  { input: "Im Fine", output: "Great"},
+  { input: "hey", output:"Hey Bro, What's Up"},
+  { input: "heya", output:"Hey Bro, What's Up"},
+  { input: "hey there", output:"Hey Bro, What's Up"},
+  { input: "morning", output:"Hey Good Morning"},
+  { input: "good morning", output:"Hey Bro, Good Morning"},
+  { input: "how are things", output:"Everything is fine, what about you ?"},
+  { input: "what's new ?", output:"Nothing much, just things same as they were"},
+  { input: "what's new", output:"Not much really"},
+  { input: "what's new?", output:"Hey, not much really you know"},
+  { input: "it's good to see you", output: "Thanks a lot"},
+  { input: "its good to see you", output: "Thanks a lot"},
+  { input: "what's up", output: "Nothing really, just talking to people, what about you ?"},
+  { input: "sup", output:"Hey Bro, How are you"},  
+  { input: "how's it going", output:"Everything is totally fine and going on smooth"},
+  { input: "hows it going", output:"Everything is fine"},
+  { input: "yo", output:"Hey Bro, What's Up"},
+  { input: "yo bro", output:"Hey Bro, What's Up"},
+  { input: "good afternoon", output:"Good Afternoon, thank you"},
+  { input: "good evening", output:"Hey bro, good evening"},
+  { input: "it's nice to meet you", output:"Thank You, Same Here"},
+  { input: "its nice to meet you", output:"Thank You, Same Here"},
+  { input: "it's a pleasure to meet you", output:"Thank You, Same Here"},
+  { input: "Not much", output: "Oh ok, any way I can help you ?"},
+  { input: "Hi Bro", output: "Hey how are you ?"},
+  { input: "No", output: "Oh Ok"},
+  { input: "Yes", output: "What can I do for you"},
+  { input: "Yo what's up", output: "Yo, how are you, I am fine"},
+  { input: "Yo whats up", output: "Yo, how are you, I am fine"},
+  { input: "nigga", output: "Please use appropriate words only !!"},
+  { input: "hey bro", output: "Yo, how are you"},
+  { input: "Not much too", output: "Yo, how are you, I am fine"},
+  { input: "not much going on", output: "Ok, ask anything you want"},
+  { input: "good morning bro", output: "Hey, greetings, good morning"},
+  { input: "good evening bro", output: "Hey, greetings, good evening"},
+  { input: "good night bro", output: "Good night"},
+  { input: "ayo", output: "Hey, greetings"},
+  { input: "what's going on", output: "Hey, not much, you ?"},
+  { input: "whats going on", output: "Hey, not much, you ?"},
+];
+
+function generateID() {
+  return Math.random().toString(36).substring(2, 10);
+}
+
+function addUserMessage(message) {
+  const userMessage = document.createElement('div');
+  userMessage.className = 'chat-message';
+  userMessage.innerHTML = `<div class="user-message">${message}</div>`;
+  chatBox.appendChild(userMessage);
+}
+
+function addBotMessage(message) {
+  const botMessage = document.createElement('div');
+  botMessage.className = 'chat-message';
+  botMessage.innerHTML = `<div class="bot-message">${message}</div>`;
+  chatBox.appendChild(botMessage);
+}
+
+function processUserInput() {
+  const userInput = inputBox.value.trim();
+  inputBox.value = '';
+
+  if (userInput !== '') {
+    addUserMessage(userInput);
+
+    let response = 'I cant understand what you said. Try refraiming';
+    for (let i = 0; i < dataset.length; i++) {
+      const input = dataset[i].input.toLowerCase();
+      const output = dataset[i].output;
+      if (userInput.toLowerCase() === input) {
+        response = output;
+        break;
+      }
+    }
+
+    setTimeout(() => {
+      addBotMessage(response);
+    }, 500);
+  }
+}
+
+// Add event listener for enter keypress in input box
+inputBox.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    processUserInput();
+  }
+});
+
+  </script>
+</body>
+</html>
